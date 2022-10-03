@@ -1,4 +1,4 @@
-Shader "Unlit/Shader1_Unlit"
+Shader "Unlit/1_SimpleRed_Shader_Unlit"
 {
     Properties
     {
