@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 11b_RotatingScalingSquare
+  m_Name: 11c_ScalingSquare
   m_Shader: {fileID: 4800000, guid: a206a82c41e83411d9816498be8a8cba, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

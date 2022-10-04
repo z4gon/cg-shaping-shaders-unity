@@ -357,7 +357,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Rotating Mouse](./docs/11.gif)
+![Rotating Square](./docs/11.gif)
 
 ### Change Anchor
 
@@ -377,4 +377,4 @@ float checkInRect(float2 position, float2 center, float2 size, float2 anchor = 0
 
 ```
 
-![Rotating Mouse](./docs/11b.gif)
+![Anchor for Square](./docs/11b.gif)

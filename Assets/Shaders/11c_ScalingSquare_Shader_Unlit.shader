@@ -1,4 +1,4 @@
-Shader "Unlit/11b_RotatingScalingSquare_Shader_Unlit"
+Shader "Unlit/11c_ScalingSquare_Shader_Unlit"
 {
     Properties
     {
