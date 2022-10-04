@@ -412,4 +412,4 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Rotating Square](./docs/11.gif)
+![Scaling Square](./docs/12.gif)
