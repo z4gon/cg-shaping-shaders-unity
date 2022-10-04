@@ -6,9 +6,10 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 
 ## Shaders
 1. [Simple Red Unlit Shader](#simple-red-unlit-shader)
-1. [Color over Time Unlit Shader](#color-over-time-unlit-shader)
-1. [With Exposed Properties Unlit Shader](#with-exposed-properties-unlit-shader)
-1. [Interpolated UVs Unlit Shader](#interpolated-uvs-unlit-shader)
+1. [Color Over Time](#color-over-time)
+1. [With Exposed Properties in ShaderLab](#with-exposed-properties-in-shader-lab)
+1. [Interpolated UVs](#interpolated-uvs)
+1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
 
 ## Simple Red Unlit Shader
 - Simplest `Cg` Shader code.
@@ -25,9 +26,9 @@ fixed4 frag (v2f_img i) : SV_Target
 }
 ```
 
-![Simple Unlit Shader](./docs/1.gif)
+![Simple Red Unlit Shader](./docs/1.gif)
 
-## Color over Time Unlit Shader
+## Color Over Time
 - Same structure as the simple red unlit shader.
 - Uses the `sin()` and `cos()` functions to oscillate the colors.
 - Uses the `Unity` `uniform` variable `_Time`, to change the color over time.
@@ -51,9 +52,9 @@ fixed4 frag (v2f_img i) : SV_Target
 }
 ```
 
-![Simple Unlit Shader](./docs/2.gif)
+![Color Over Time](./docs/2.gif)
 
-## With Exposed Properties Unlit Shader
+## With Exposed Properties in ShaderLab
 - Same structure as previous shaders.
 - Exposes `_ColorA` and `_ColorB` to the Unity Editor, using `ShaderLab`.
 - Uses the `lerp` function to blend between the two colors.
@@ -91,10 +92,10 @@ SubShader
 }
 ```
 
-![Simple Unlit Shader](./docs/shaderlab-properties.png)
-![Simple Unlit Shader](./docs/3.gif)
+![ShaderLab Properties in the Unity Editor](./docs/shaderlab-properties.png)
+![With Exposed Properties in ShaderLab](./docs/3.gif)
 
-## Interpolated UVs Unlit Shader
+## Interpolated UVs
 - Same structure as previous shaders.
 - Uses the `i.uv.x` interpolated value coming from the `v2f_img` struct from the `Vertex Shader` as the delta.
 
@@ -108,4 +109,50 @@ fixed4 frag (v2f_img i) : SV_Target
 }
 ```
 
-![Simple Unlit Shader](./docs/4.gif)
+![Interpolated UVs](./docs/4.gif)
+
+## Custom Data from Vertex Shader
+- Defines a custom `struct` called `v2f` for "vertex to fragment".
+- Uses the `Cg` semantics accordingly.
+- Defines a function for the `Vertex Shader`.
+- **Paints the pixels** by `saturating` the value of the interpolated for the pixel, on `Object Space`.
+  - **Black** (0,0,0) in the left bottom, because object space coordinates there are (-0.5, -0.5) to (0,0), which after multiplying by 2 and then saturating, end up being (0,0,0)
+  - **Green** (0,1,0) to **Yellow** (1,1,0) in the top, because object space coordinates there are (-0.5, 0.5) to (0.5, 0,5), which after multiplying by 2 and then saturating, end up being (0,1,0) to (1,1,0)
+  - **Red** (1,0,0) to **Yellow** (1,1,0) in the right, because object space coordinates there are (0.5, -0.5) to (0.5, 0.5), which after multiplying by 2 and then saturating, end up being (1,0,0) to (1,1,0)
+
+```c
+struct v2f
+{
+    // Cg Semantics
+    //      Binds Shader input/output to rendering hardware
+    //      - SV_POSITION means system value position in DX10, corresponds to vertex position
+    //      - TEXCOORDn means custom data
+
+    float4 vertex: SV_POSITION; // From Object-Space to Clip-Space
+    float4 position: TEXCOORD1;
+    float4 uv: TEXCOORD0;
+};
+
+v2f vert (appdata_base v) {
+    v2f output;
+
+    output.vertex = UnityObjectToClipPos(v.vertex);
+    output.position = v.vertex;
+    output.uv = v.texcoord;
+
+    return output;
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    // from (0.5, -0.5, 0.0) to (1, -1 , 0)
+    fixed3 position = i.position * 2;
+
+    // saturate clamps values to (0, 1)
+    fixed3 color = saturate(position);
+
+    return fixed4(color, 1.0);
+}
+```
+
+![Custom Data from Vertex Shader](./docs/5.gif)
