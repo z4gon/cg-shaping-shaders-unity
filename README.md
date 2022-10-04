@@ -2,7 +2,7 @@
 A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
 ### Course
-[Learn Unity Shaders from Scratch - Nocholas Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
+[Learn Unity Shaders from Scratch - Nik Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
 
 ## Shaders
 1. [Simple Red Unlit Shader](#simple-red-unlit-shader)
