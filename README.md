@@ -188,7 +188,6 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Step](./docs/6.gif)
-![Parametrized Step](./docs/6-1.gif)
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -203,7 +202,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/6-2.gif)
+![Parametrized Smoothstep](./docs/61.gif)
 
 ## Circle
 
