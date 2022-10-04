@@ -1,5 +1,5 @@
-# Unity Shaders Practice
-A collection of basic Shaders written in **Cg** for the **Built-in RP** in Unity.
+# Cg Shaders for Unity
+A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
 ### Course
 [Learn Unity Shaders from Scratch - Nocholas Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
