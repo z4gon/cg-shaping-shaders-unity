@@ -251,4 +251,17 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Parametrized Smoothstep](./docs/8.gif)
-![Parametrized Smoothstep](./docs/8-1.gif)
+![Parametrized Smoothstep](./docs/81.gif)
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 position = i.position.xy;
+    fixed inRect1 = checkInRect(position, _Rect1.xy, _Rect1.zw);
+    fixed inRect2 = checkInRect(position, _Rect2.xy, _Rect2.zw);
+
+    return _Color1 * inRect1 + _Color2 * inRect2;
+}
+```
+
+![Parametrized Smoothstep](./docs/82.gif)

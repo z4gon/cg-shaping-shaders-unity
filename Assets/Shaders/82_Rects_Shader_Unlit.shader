@@ -1,10 +1,11 @@
-Shader "Unlit/8_Square_Shader_Unlit"
+Shader "Unlit/82_Rects_Shader_Unlit"
 {
     Properties
     {
-        _CenterX("Center X", Range(-0.5, 0.5)) = 0
-        _CenterY("Center Y", Range(-0.5, 0.5)) = 0
-        _Size("Size", Range(0.0, 1.0)) = 0.5
+        _Rect1("Rect 1", Vector) = (-0.2, -0.2, 0.2, 0.2)
+        _Rect2("Rect 2", Vector) = (0.2, 0.2, 0.2, 0.2)
+        _Color1("Color 1", Color) = (1,0,0,1)
+        _Color2("Color 2", Color) = (0,0,1,1)
     }
     SubShader
     {
@@ -19,9 +20,10 @@ Shader "Unlit/8_Square_Shader_Unlit"
 
             #include "UnityCG.cginc"
 
-            float _CenterX;
-            float _CenterY;
-            float _Size;
+            float4 _Rect1;
+            float4 _Rect2;
+            fixed4 _Color1;
+            fixed4 _Color2;
 
             struct v2f
             {
@@ -61,9 +63,10 @@ Shader "Unlit/8_Square_Shader_Unlit"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 position = i.position.xy;
-                fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), float2(_Size, _Size));
+                fixed inRect1 = checkInRect(position, _Rect1.xy, _Rect1.zw);
+                fixed inRect2 = checkInRect(position, _Rect2.xy, _Rect2.zw);
 
-                return fixed4(1,1,1,1) * inRect;
+                return _Color1 * inRect1 + _Color2 * inRect2;
             }
             ENDCG
         }
