@@ -2,6 +2,7 @@ Shader "Unlit/11_RotatingSquare_Shader_Unlit"
 {
     Properties
     {
+        _RotationCenter("Rotation Center", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -19,6 +20,8 @@ Shader "Unlit/11_RotatingSquare_Shader_Unlit"
             #include "./shared/SimpleV2F.cginc"
             #include "./shared/Matrices.cginc"
 
+            float2 _RotationCenter;
+
             fixed4 frag (v2f i) : SV_Target
             {
                 // rotation
@@ -28,9 +31,11 @@ Shader "Unlit/11_RotatingSquare_Shader_Unlit"
                 float2 size = 0.5;
 
                 float2 position = i.position.xy * 2.0;
-                float2 rotatedPos = mul(rotation, position);
 
-                fixed inRect = checkInRect(rotatedPos, float2(0,0), size);
+                // reposition the pixel at the center, rotate around zero, then put back in place
+                float2 rotatedPos = mul(rotation, position - _RotationCenter) + _RotationCenter;
+
+                fixed inRect = checkInRect(rotatedPos, _RotationCenter, size);
 
                 return fixed4(1,1,0,1) * inRect;
             }

@@ -347,9 +347,11 @@ fixed4 frag (v2f i) : SV_Target
     float2 size = 0.5;
 
     float2 position = i.position.xy * 2.0;
-    float2 rotatedPos = mul(rotation, position);
 
-    fixed inRect = checkInRect(rotatedPos, float2(0,0), size);
+    // reposition the pixel at the center, rotate around zero, then put back in place
+    float2 rotatedPos = mul(rotation, position - _RotationCenter) + _RotationCenter;
+
+    fixed inRect = checkInRect(rotatedPos, _RotationCenter, size);
 
     return fixed4(1,1,0,1) * inRect;
 }
