@@ -16,6 +16,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Step and Smoothstep](#step-and-smoothstep)
 1. [Circle](#circle)
 1. [Square and Rectangle](#square-and-rectangle)
+1. [Follow Mouse](#follow-mouse)
 
 ## Simple Red Unlit Shader
 
@@ -265,3 +266,36 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Parametrized Smoothstep](./docs/82.gif)
+
+## Follow Mouse
+
+- Use `checkInRect()` but with a square based on the mouse position as center.
+- Use a **C#** script to **RayCast** on top of the **Quad**, then **pass** the Mouse Position to the **Material**.
+
+```cs
+void Update()
+{
+    // Raycast
+    RaycastHit hit;
+    var ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+    if (Physics.Raycast(ray, out hit))
+    {
+        _mousePosition = hit.textureCoord;
+    }
+
+    _material.SetVector("_MousePosition", _mousePosition);
+}
+```
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 position = i.uv;
+    fixed inSquare = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
+
+    return fixed4(1,1,0,1) * inSquare;
+}
+```
+
+![Parametrized Smoothstep](./docs/9.gif)
