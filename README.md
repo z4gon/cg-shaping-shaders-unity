@@ -11,6 +11,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Interpolated UVs](#interpolated-uvs)
 1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
 1. [Step and Smoothstep](#step-and-smoothstep)
+1. [Circle](#circle)
 
 ## Simple Red Unlit Shader
 - Simplest `Cg` Shader code.
@@ -193,3 +194,21 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Parametrized Smoothstep](./docs/6-2.gif)
+
+## Circle
+- Use `length` to return a white pixel when the position of the pixel in object space is within the `_Radius`.
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    fixed radius = length(i.position.xy);
+
+    if (radius <= _Radius) {
+        return fixed4(1,1,1,1);
+    }
+
+    return fixed4(0,0,0,0);
+}
+```
+
+![Parametrized Smoothstep](./docs/6-3.gif)
