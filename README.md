@@ -18,6 +18,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Square and Rectangle](#square-and-rectangle)
 1. [Follow Mouse](#follow-mouse)
 1. [Moving Square](#moving-square)
+1. [Rotating Square](#rotating-square)
 
 ## Simple Red Unlit Shader
 
@@ -322,4 +323,36 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Follow Mouse](./docs/10.gif)
+![Moving Square](./docs/10.gif)
+
+## Rotating Square
+
+- Use a 2D rotation matrix to rotate the pixel position.
+
+```c
+float2x2 getRotationMatrix2D(float theta)
+{
+    float s = sin(theta);
+    float c = cos(theta);
+
+    return float2x2(c,-s,s,c);
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    // rotation
+    float2x2 rotation = getRotationMatrix2D(_Time.w);
+
+    // square measurements
+    float2 size = 0.5;
+
+    float2 position = i.position.xy * 2.0;
+    float2 rotatedPos = mul(rotation, position);
+
+    fixed inRect = checkInRect(rotatedPos, float2(0,0), size);
+
+    return fixed4(1,1,0,1) * inRect;
+}
+```
+
+![Rotating Mouse](./docs/11.gif)
