@@ -20,6 +20,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Moving Square](#moving-square)
 1. [Rotating Square](#rotating-square)
 1. [Scaling Square](#scaling-square)
+1. [Tiling](#tiling)
 
 ## Simple Red Unlit Shader
 
@@ -413,3 +414,35 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Scaling Square](./docs/12.gif)
+
+## Tiling
+
+- Use `frac()` from **Cg** to extract the fractional component of the decimal values for UVs.
+- This essentialy replicates many coordinate systems of `(0,0) to (1,1)` across the Quad.
+- The calculations for the rotating square are still done in a `(0,0) to (1,1)` coordinate system.
+- So, this basically clones the same thing we did before, but as many times as `Tile Count` states.
+- `Tile Count` can have different values for `x` and `y`, distoring the tiles.
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    // rotation and scaling
+    float2x2 rotation = getRotationMatrix2D(_Time.w);
+    float2x2 scale = getScaleMatrix2D((sin(_Time.w) + 1)/3 + 0.5);
+    float2x2 transform = mul(rotation, scale);
+
+    // square measurements
+    float2 size = 0.3;
+
+    float2 position = frac(i.uv * _TileCount);
+
+    // reposition the pixel at the center, rotate around zero, then put back in place
+    float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
+
+    fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
+
+    return fixed4(1,1,0,1) * inRect;
+}
+```
+
+![Tiling](./docs/13.gif)
