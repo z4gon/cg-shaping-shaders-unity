@@ -19,6 +19,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Follow Mouse](#follow-mouse)
 1. [Moving Square](#moving-square)
 1. [Rotating Square](#rotating-square)
+1. [Scaling Square](#scaling-square)
 
 ## Simple Red Unlit Shader
 
@@ -327,7 +328,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Rotating Square
 
-- Use a 2D rotation matrix to rotate the pixel position.
+- Use a 2D `rotation matrix` to rotate the pixel position.
 
 ```c
 float2x2 getRotationMatrix2D(float theta)
@@ -378,3 +379,37 @@ float checkInRect(float2 position, float2 center, float2 size, float2 anchor = 0
 ```
 
 ![Anchor for Square](./docs/11b.gif)
+
+## Scaling Square
+
+- Use a 2D `scaling matrix` to scale the pixel position.
+- Multiply the `rotation matrix` by the `scale matrix`, to generate a new `transform matrix`.
+
+```c
+float2x2 getScaleMatrix2D(float scale)
+{
+    return float2x2(scale,0,0,scale);
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    // rotation and scaling
+    float2x2 rotation = getRotationMatrix2D(_Time.w);
+    float2x2 scale = getScaleMatrix2D((sin(_Time.w) + 1)/3 + 0.5);
+    float2x2 transform = mul(rotation, scale);
+
+    // square measurements
+    float2 size = 0.3;
+
+    float2 position = i.position.xy * 2.0;
+
+    // reposition the pixel at the center, rotate around zero, then put back in place
+    float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
+
+    fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
+
+    return fixed4(1,1,0,1) * inRect;
+}
+```
+
+![Rotating Square](./docs/11.gif)

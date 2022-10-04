@@ -1,4 +1,4 @@
-Shader "Unlit/11c_ScalingSquare_Shader_Unlit"
+Shader "Unlit/12_ScalingSquare_Shader_Unlit"
 {
     Properties
     {
@@ -26,8 +26,10 @@ Shader "Unlit/11c_ScalingSquare_Shader_Unlit"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // rotation
+                // rotation and scaling
                 float2x2 rotation = getRotationMatrix2D(_Time.w);
+                float2x2 scale = getScaleMatrix2D((sin(_Time.w) + 1)/3 + 0.5);
+                float2x2 transform = mul(rotation, scale);
 
                 // square measurements
                 float2 size = 0.3;
@@ -35,7 +37,7 @@ Shader "Unlit/11c_ScalingSquare_Shader_Unlit"
                 float2 position = i.position.xy * 2.0;
 
                 // reposition the pixel at the center, rotate around zero, then put back in place
-                float2 rotatedPos = mul(rotation, position - _SquarePosition) + _SquarePosition;
+                float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
 
                 fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
 
