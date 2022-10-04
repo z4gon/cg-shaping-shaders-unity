@@ -1,5 +1,9 @@
 # Unity Shaders Practice
 A collection of basic Shaders written in **Cg/HLSL** for the **Built-in RP** in Unity.
+
+### Course
+[Learn Unity Shaders from Scratch - Nocholas Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
+
 ## Shaders
 - [Simple Red Unlit Shader](#simple-red-unlit-shader)
 - [Color over Time Unlit Shader](#color-over-time-unlit-shader)
