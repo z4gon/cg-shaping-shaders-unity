@@ -1,4 +1,4 @@
-Shader "Unlit/6_Smoothstep_Shader_Unlit"
+Shader "Unlit/61_Smoothstep_Shader_Unlit"
 {
     Properties
     {
@@ -48,9 +48,6 @@ Shader "Unlit/6_Smoothstep_Shader_Unlit"
             {
                 // transforms values like this: (0.5, -0.5, 0.0) to (1, -1 , 0)
                 fixed3 color = i.position * 2;
-
-                // color.r = step(_EdgeStart, color.r);
-                // color.g = step(_EdgeStart, color.g);
 
                 color.r = smoothstep(_EdgeStart, _EdgeEnd, color.r);
                 color.g = smoothstep(_EdgeStart, _EdgeEnd, color.g);
