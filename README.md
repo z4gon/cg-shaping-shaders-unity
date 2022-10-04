@@ -201,13 +201,11 @@ fixed4 frag (v2f i) : SV_Target
 ```c
 fixed4 frag (v2f i) : SV_Target
 {
-    fixed radius = length(i.position.xy);
+    fixed r = length(i.position.xy);
+    fixed outCircle = step(_Radius, r);
+    fixed inCircle = 1 - outCircle;
 
-    if (radius <= _Radius) {
-        return fixed4(1,1,1,1);
-    }
-
-    return fixed4(0,0,0,0);
+    return fixed4(1,1,1,1) * inCircle;
 }
 ```
 
