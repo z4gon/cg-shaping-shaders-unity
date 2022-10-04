@@ -10,6 +10,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [With Exposed Properties in ShaderLab](#with-exposed-properties-in-shader-lab)
 1. [Interpolated UVs](#interpolated-uvs)
 1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
+1. [Step and Smoothstep](#step-and-smoothstep)
 
 ## Simple Red Unlit Shader
 - Simplest `Cg` Shader code.
@@ -145,7 +146,7 @@ v2f vert (appdata_base v) {
 
 fixed4 frag (v2f i) : SV_Target
 {
-    // from (0.5, -0.5, 0.0) to (1, -1 , 0)
+    // transforms values like this: (0.5, -0.5, 0.0) to (1, -1 , 0)
     fixed3 position = i.position * 2;
 
     // saturate clamps values to (0, 1)
@@ -156,3 +157,39 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Custom Data from Vertex Shader](./docs/5.gif)
+
+## Step and Smoothstep
+- Same structure as previous shader.
+- Uses `step` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
+- Use `smoothstep` to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    // transforms values like this: (0.5, -0.5, 0.0) to (1, -1 , 0)
+    fixed3 color = i.position * 2;
+
+    color.r = step(_StepEdge, color.r);
+    color.g = step(_StepEdge, color.g);
+
+    return fixed4(color, 1.0);
+}
+```
+
+![Step](./docs/6.gif)
+![Parametrized Step](./docs/6-1.gif)
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    // transforms values like this: (0.5, -0.5, 0.0) to (1, -1 , 0)
+    fixed3 color = i.position * 2;
+
+    color.r = smoothstep(_EdgeStart, _EdgeEnd, color.r);
+    color.g = smoothstep(_EdgeStart, _EdgeEnd, color.g);
+
+    return fixed4(color, 1.0);
+}
+```
+
+![Parametrized Smoothstep](./docs/6-2.gif)

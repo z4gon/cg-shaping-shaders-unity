@@ -1,7 +1,9 @@
-Shader "Unlit/5_CustomVertexData_Shader_Unlit"
+Shader "Unlit/6_Step_Shader_Unlit"
 {
     Properties
     {
+        _EdgeStart("Smoothstep Edge Start", Range(-1.0, 1.0)) = 0
+        _EdgeEnd("Smoothstep Edge End", Range(-1.0, 1.0)) = 0.3
     }
     SubShader
     {
@@ -15,6 +17,9 @@ Shader "Unlit/5_CustomVertexData_Shader_Unlit"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+            float _EdgeStart;
+            float _EdgeEnd;
 
             struct v2f
             {
@@ -41,10 +46,10 @@ Shader "Unlit/5_CustomVertexData_Shader_Unlit"
             fixed4 frag (v2f i) : SV_Target
             {
                 // transforms values like this: (0.5, -0.5, 0.0) to (1, -1 , 0)
-                fixed3 position = i.position * 2;
+                fixed3 color = i.position * 2;
 
-                // saturate clamps values to (0, 1)
-                fixed3 color = saturate(position);
+                color.r = smoothstep(_EdgeStart, _EdgeEnd, color.r);
+                color.g = smoothstep(_EdgeStart, _EdgeEnd, color.g);
 
                 return fixed4(color, 1.0);
             }
