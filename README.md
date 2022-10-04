@@ -17,6 +17,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Circle](#circle)
 1. [Square and Rectangle](#square-and-rectangle)
 1. [Follow Mouse](#follow-mouse)
+1. [Moving Square](#moving-square)
 
 ## Simple Red Unlit Shader
 
@@ -222,7 +223,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/7.gif)
+![Circle](./docs/7.gif)
 
 ## Square and Rectangle
 
@@ -251,8 +252,8 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/8.gif)
-![Parametrized Smoothstep](./docs/81.gif)
+![Square](./docs/8.gif)
+![Rect](./docs/81.gif)
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -265,7 +266,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/82.gif)
+![2 Rects](./docs/82.gif)
 
 ## Follow Mouse
 
@@ -292,10 +293,33 @@ void Update()
 fixed4 frag (v2f i) : SV_Target
 {
     float2 position = i.uv;
-    fixed inSquare = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
+    fixed inRect = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
 
-    return fixed4(1,1,0,1) * inSquare;
+    return fixed4(1,1,0,1) * inRect;
 }
 ```
 
-![Parametrized Smoothstep](./docs/9.gif)
+![Follow Mouse](./docs/9.gif)
+
+## Moving Square
+
+- Use `checkInRect()` but using `sin` and `cos` to position the rectangle.
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    float movementRadius = 0.3;
+
+    // square measurements
+    float2 center = float2(cos(_Time.w),sin(_Time.w)) * movementRadius;
+    float2 size = 0.2;
+
+    float2 position = i.position.xy * 2.0;
+
+    fixed inRect = checkInRect(position, center, size);
+
+    return fixed4(1,1,0,1) * inRect;
+}
+```
+
+![Follow Mouse](./docs/10.gif)

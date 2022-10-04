@@ -1,8 +1,7 @@
-Shader "Unlit/9_SquareFollowMouse_Shader_Unlit"
+Shader "Unlit/10_MovingSquare_Shader_Unlit"
 {
     Properties
     {
-        _MousePosition("Mouse Position", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -19,12 +18,17 @@ Shader "Unlit/9_SquareFollowMouse_Shader_Unlit"
             #include "./shared/Rect.cginc"
             #include "./shared/SimpleV2F.cginc"
 
-            float4 _MousePosition;
-
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 position = i.uv;
-                fixed inRect = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
+                float movementRadius = 0.3;
+
+                // square measurements
+                float2 center = float2(cos(_Time.w),sin(_Time.w)) * movementRadius;
+                float2 size = 0.2;
+
+                float2 position = i.position.xy * 2.0;
+
+                fixed inRect = checkInRect(position, center, size);
 
                 return fixed4(1,1,0,1) * inRect;
             }
