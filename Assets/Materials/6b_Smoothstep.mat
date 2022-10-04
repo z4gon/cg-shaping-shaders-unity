@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 61_Smoothstep
+  m_Name: 6b_Smoothstep
   m_Shader: {fileID: 4800000, guid: 4ccee2e579e3545c3aaff8d5dddb9725, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

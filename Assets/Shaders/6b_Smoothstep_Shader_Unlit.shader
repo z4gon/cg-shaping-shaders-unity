@@ -1,4 +1,4 @@
-Shader "Unlit/61_Smoothstep_Shader_Unlit"
+Shader "Unlit/6b_Smoothstep_Shader_Unlit"
 {
     Properties
     {

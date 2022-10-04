@@ -1,4 +1,4 @@
-Shader "Unlit/81_Rect_Shader_Unlit"
+Shader "Unlit/8b_Rect_Shader_Unlit"
 {
     Properties
     {
