@@ -3,6 +3,7 @@ A collection of basic Shaders written in **Cg/HLSL** for the **Built-in RP** in 
 ## Shaders
 - [Simple Red Unlit Shader](#simple-red-unlit-shader)
 - [Color over Time Unlit Shader](#color-over-time-unlit-shader)
+- [With Exposed Properties Unlit Shader](#with-exposed-properties-unlit-shader)
 
 ## Simple Red Unlit Shader
 - Simplest `Cg` Shader code.
@@ -46,3 +47,44 @@ fixed4 frag (v2f_img i) : SV_Target
 ```
 
 ![Simple Unlit Shader](./docs/2.gif)
+
+## With Exposed Properties Unlit Shader
+- Same structure as previous shaders.
+- Exposes `_ColorA` and `_ColorB` to the Unity Editor, using `ShaderLab`.
+- Uses the `lerp` function to blend between the two colors.
+
+```hlsl
+Properties
+{
+    _ColorA("Color A", Color) = (1,0,0,1)
+    _ColorB("Color B", Color) = (0,0,1,1)
+}
+SubShader
+{
+    // subshader code
+
+    Pass
+    {
+        CGPROGRAM
+        // pass code
+
+        fixed4 _ColorA;
+        fixed4 _ColorB;
+
+        fixed4 frag (v2f_img i) : SV_Target
+        {
+            float delta = (sin(_Time.w) + 1) / 2;
+            fixed3 color = lerp(_ColorA, _ColorB, delta);
+
+            return fixed4(color, 1);
+
+            // return _ColorA; // just Color A
+            // return _ColorA.grba; // swaps Red with Green
+        }
+        ENDCG
+    }
+}
+```
+
+![Simple Unlit Shader](./docs/shaderlab-properties.png)
+![Simple Unlit Shader](./docs/3.gif)
