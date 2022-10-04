@@ -15,7 +15,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
 1. [Step and Smoothstep](#step-and-smoothstep)
 1. [Circle](#circle)
-1. [Square](#square)
+1. [Square and Rectangle](#square-and-rectangle)
 
 ## Simple Red Unlit Shader
 
@@ -224,9 +224,9 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Parametrized Smoothstep](./docs/7.gif)
 
-## Square
+## Square and Rectangle
 
-- Use `checkInSquare()` to return 1 only if the pixel is inside the square.
+- Use `checkInRect()` to return 1 only if the pixel is inside the square.
 
 ```c
 float checkInRect(float2 position, float2 center, float2 size)
@@ -244,10 +244,11 @@ float checkInRect(float2 position, float2 center, float2 size)
 fixed4 frag (v2f i) : SV_Target
 {
     float2 position = i.position.xy;
-    fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), _Size);
+    fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), float2(_Width, _Height));
 
     return fixed4(1,1,1,1) * inRect;
 }
 ```
 
 ![Parametrized Smoothstep](./docs/8.gif)
+![Parametrized Smoothstep](./docs/8-1.gif)
