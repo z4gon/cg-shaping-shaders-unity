@@ -33,7 +33,8 @@ Shader "Unlit/6_Smoothstep_Shader_Unlit"
                 float4 uv: TEXCOORD0;
             };
 
-            v2f vert (appdata_base v) {
+            v2f vert (appdata_base v)
+            {
                 v2f output;
 
                 output.vertex = UnityObjectToClipPos(v.vertex);

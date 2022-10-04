@@ -1,10 +1,13 @@
 # Cg Shaders for Unity
+
 A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
 ### Course
+
 [Learn Unity Shaders from Scratch - Nik Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
 
 ## Shaders
+
 1. [Simple Red Unlit Shader](#simple-red-unlit-shader)
 1. [Color Over Time](#color-over-time)
 1. [With Exposed Properties in ShaderLab](#with-exposed-properties-in-shader-lab)
@@ -12,8 +15,10 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
 1. [Step and Smoothstep](#step-and-smoothstep)
 1. [Circle](#circle)
+1. [Square](#square)
 
 ## Simple Red Unlit Shader
+
 - Simplest `Cg` Shader code.
 - No fog or any lighting calculation.
 - No Properties in `ShaderLab`.
@@ -31,10 +36,10 @@ fixed4 frag (v2f_img i) : SV_Target
 ![Simple Red Unlit Shader](./docs/1.gif)
 
 ## Color Over Time
+
 - Same structure as the simple red unlit shader.
 - Uses the `sin()` and `cos()` functions to oscillate the colors.
 - Uses the `Unity` `uniform` variable `_Time`, to change the color over time.
-
 
 ```c
 fixed4 frag (v2f_img i) : SV_Target
@@ -57,6 +62,7 @@ fixed4 frag (v2f_img i) : SV_Target
 ![Color Over Time](./docs/2.gif)
 
 ## With Exposed Properties in ShaderLab
+
 - Same structure as previous shaders.
 - Exposes `_ColorA` and `_ColorB` to the Unity Editor, using `ShaderLab`.
 - Uses the `lerp` function to blend between the two colors.
@@ -98,6 +104,7 @@ SubShader
 ![With Exposed Properties in ShaderLab](./docs/3.gif)
 
 ## Interpolated UVs
+
 - Same structure as previous shaders.
 - Uses the `i.uv.x` interpolated value coming from the `v2f_img` struct from the `Vertex Shader` as the delta.
 
@@ -114,6 +121,7 @@ fixed4 frag (v2f_img i) : SV_Target
 ![Interpolated UVs](./docs/4.gif)
 
 ## Custom Data from Vertex Shader
+
 - Defines a custom `struct` called `v2f` for "vertex to fragment".
 - Uses the `Cg` semantics accordingly.
 - Defines a function for the `Vertex Shader`.
@@ -135,7 +143,8 @@ struct v2f
     float4 uv: TEXCOORD0;
 };
 
-v2f vert (appdata_base v) {
+v2f vert (appdata_base v)
+{
     v2f output;
 
     output.vertex = UnityObjectToClipPos(v.vertex);
@@ -160,6 +169,7 @@ fixed4 frag (v2f i) : SV_Target
 ![Custom Data from Vertex Shader](./docs/5.gif)
 
 ## Step and Smoothstep
+
 - Same structure as previous shader.
 - Uses `step()` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
 - Use `smoothstep()` to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
@@ -196,6 +206,7 @@ fixed4 frag (v2f i) : SV_Target
 ![Parametrized Smoothstep](./docs/6-2.gif)
 
 ## Circle
+
 - Use `length()` to return a white pixel when the position of the pixel in object space is within the `_Radius`.
 - `step()` to have 1 when outside the circle.
 - Substract from 1 to invert the meaning, now 1 means inside the circle, multiply the final color by this.
@@ -212,3 +223,31 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Parametrized Smoothstep](./docs/7.gif)
+
+## Square
+
+- Use `checkInSquare()` to return 1 only if the pixel is inside the square.
+
+```c
+float checkInRect(float2 position, float2 center, float2 size)
+{
+    float2 p = position - center;
+
+    float2 halfSize = size * 0.5;
+
+    float horizontal = step(-halfSize.x, p.x) - step(halfSize.x, p.x);
+    float vertical = step(-halfSize.y, p.y) - step(halfSize.y, p.y);
+
+    return horizontal * vertical;
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 position = i.position.xy;
+    fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), _Size);
+
+    return fixed4(1,1,1,1) * inRect;
+}
+```
+
+![Parametrized Smoothstep](./docs/8.gif)
