@@ -1,13 +1,14 @@
 # Unity Shaders Practice
-A collection of basic Shaders written in **Cg/HLSL** for the **Built-in RP** in Unity.
+A collection of basic Shaders written in **Cg** for the **Built-in RP** in Unity.
 
 ### Course
 [Learn Unity Shaders from Scratch - Nocholas Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
 
 ## Shaders
-- [Simple Red Unlit Shader](#simple-red-unlit-shader)
-- [Color over Time Unlit Shader](#color-over-time-unlit-shader)
-- [With Exposed Properties Unlit Shader](#with-exposed-properties-unlit-shader)
+1. [Simple Red Unlit Shader](#simple-red-unlit-shader)
+1. [Color over Time Unlit Shader](#color-over-time-unlit-shader)
+1. [With Exposed Properties Unlit Shader](#with-exposed-properties-unlit-shader)
+1. [Interpolated UVs Unlit Shader](#interpolated-uvs-unlit-shader)
 
 ## Simple Red Unlit Shader
 - Simplest `Cg` Shader code.
@@ -17,7 +18,7 @@ A collection of basic Shaders written in **Cg/HLSL** for the **Built-in RP** in 
 - No override for the `Vertex Shader`.
 - Simply returns a `fixed4(1,0,0,1)` for all pixels.
 
-```hlsl
+```c
 fixed4 frag (v2f_img i) : SV_Target
 {
     return fixed4(1,0,0,1);
@@ -32,7 +33,7 @@ fixed4 frag (v2f_img i) : SV_Target
 - Uses the `Unity` `uniform` variable `_Time`, to change the color over time.
 
 
-```hlsl
+```c
 fixed4 frag (v2f_img i) : SV_Target
 {
     fixed redChannel = (sin(_Time.w) + 1) / 2;
@@ -57,7 +58,7 @@ fixed4 frag (v2f_img i) : SV_Target
 - Exposes `_ColorA` and `_ColorB` to the Unity Editor, using `ShaderLab`.
 - Uses the `lerp` function to blend between the two colors.
 
-```hlsl
+```c
 Properties
 {
     _ColorA("Color A", Color) = (1,0,0,1)
@@ -92,3 +93,19 @@ SubShader
 
 ![Simple Unlit Shader](./docs/shaderlab-properties.png)
 ![Simple Unlit Shader](./docs/3.gif)
+
+## Interpolated UVs Unlit Shader
+- Same structure as previous shaders.
+- Uses the `i.uv.x` interpolated value coming from the `v2f_img` struct from the `Vertex Shader` as the delta.
+
+```c
+fixed4 frag (v2f_img i) : SV_Target
+{
+    float delta = i.uv.x;
+    fixed3 color = lerp(_ColorA, _ColorB, delta);
+
+    return fixed4(color, 1.0);
+}
+```
+
+![Simple Unlit Shader](./docs/4.gif)
