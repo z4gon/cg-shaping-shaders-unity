@@ -161,8 +161,8 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Step and Smoothstep
 - Same structure as previous shader.
-- Uses `step` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
-- Use `smoothstep` to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
+- Uses `step()` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
+- Use `smoothstep()` to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -196,7 +196,9 @@ fixed4 frag (v2f i) : SV_Target
 ![Parametrized Smoothstep](./docs/6-2.gif)
 
 ## Circle
-- Use `length` to return a white pixel when the position of the pixel in object space is within the `_Radius`.
+- Use `length()` to return a white pixel when the position of the pixel in object space is within the `_Radius`.
+- `step()` to have 1 when outside the circle.
+- Substract from 1 to invert the meaning, now 1 means inside the circle, multiply the final color by this.
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -209,4 +211,4 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/6-3.gif)
+![Parametrized Smoothstep](./docs/7.gif)
