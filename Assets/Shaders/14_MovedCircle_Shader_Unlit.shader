@@ -1,8 +1,9 @@
-Shader "Unlit/7_Circle_Shader_Unlit"
+Shader "Unlit/14_MovedCircle_Shader_Unlit"
 {
     Properties
     {
-        _Radius("Radius", Range(0.0, 1.0)) = 0.3
+        _CircleRadius("Circle Radius", Range(0.0, 1.0)) = 0.3
+        _CirclePosition("Circle Position", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -19,11 +20,12 @@ Shader "Unlit/7_Circle_Shader_Unlit"
             #include "./shared/SimpleV2F.cginc"
             #include "./shared/Circle.cginc"
 
-            float _Radius;
+            float _CircleRadius;
+            float2 _CirclePosition;
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed inCircle = checkInCircle(i.position.xy, float2(0,0), _Radius);
+                fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius);
                 return fixed4(1,1,1,1) * inCircle;
             }
             ENDCG

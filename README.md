@@ -21,6 +21,7 @@ A collection of Shaders written in **Cg** for the **Built-in RP** in Unity, from
 1. [Rotating Square](#rotating-square)
 1. [Scaling Square](#scaling-square)
 1. [Tiling](#tiling)
+1. [Moved Circle](#moved-circle)
 
 ## Simple Red Unlit Shader
 
@@ -446,3 +447,28 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Tiling](./docs/13.gif)
+
+## Moved Circle
+
+- Use a vector to set a position for the center of the circle, and calculate around it.
+
+```c
+float checkInCircle(float2 position, float2 center, float radius)
+{
+    // returns 1 if the point is inside the circle defined by center and radius
+
+    fixed r = length(position - center);
+    fixed outCircle = step(radius, r);
+    fixed inCircle = 1 - outCircle;
+
+    return inCircle;
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius);
+    return fixed4(1,1,1,1) * inCircle;
+}
+```
+
+![Tiling](./docs/14.gif)
