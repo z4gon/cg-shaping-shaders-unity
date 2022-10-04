@@ -94,5 +94,6 @@ Material:
     - _MousePosition: {r: 0, g: 0, b: 0, a: 0}
     - _Rect1: {r: 0.07, g: 0.18, b: 0.27, a: 0.38}
     - _Rect2: {r: -0.17, g: 0.2, b: 0.54, a: 0.36}
-    - _RotationCenter: {r: 0, g: 0, b: 0, a: 0}
+    - _SquareAnchor: {r: 0.15, g: 0.15, b: 0, a: 0}
+    - _SquarePosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
