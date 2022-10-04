@@ -50,14 +50,15 @@ Shader "Unlit/81_Rect_Shader_Unlit"
 
             float checkInRect(float2 position, float2 center, float2 size)
             {
+                // returns 1 when the position is inside the rect defined by center and size
                 float2 p = position - center;
 
                 float2 halfSize = size * 0.5;
 
-                float horizontal = step(-halfSize.x, p.x) - step(halfSize.x, p.x);
-                float vertical = step(-halfSize.y, p.y) - step(halfSize.y, p.y);
+                // 0 if less than -halfSize, 1 if between -halfSize and halfSize, 0 if over halfSize
+                float2 test = step(-halfSize, p) - step(halfSize, p);
 
-                return horizontal * vertical;
+                return test.x * test.y;
             }
 
             fixed4 frag (v2f i) : SV_Target
