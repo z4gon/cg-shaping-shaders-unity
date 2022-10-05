@@ -22,6 +22,8 @@ A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unit
 1. [Scaling Square](#scaling-square)
 1. [Tiling](#tiling)
 1. [Moved Circle](#moved-circle)
+1. [Outlined Circle](#outlined-circle)
+1. [Draw Line](#draw-line)
 
 ## Simple Red Unlit Shader
 
@@ -512,7 +514,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Soft Circle](./docs/14b.gif)
 
-### Outlined Circle
+## Outlined Circle
 
 - Use `step()` to check if the pixel is inside the circle outline.
 
@@ -539,7 +541,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Outlined Circle](./docs/15.gif)
 
-### Draw Line
+## Draw Line
 
 - Define a function to check if the uv coordinate is along the `x = y` line in the screen position.
 
@@ -572,4 +574,4 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Outlined Circle](./docs/16.gif)
+![Draw Line](./docs/16.gif)
