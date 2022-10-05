@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 16c_DrawSinusoidal
+  m_Name: 17_DrawSinusoidal
   m_Shader: {fileID: 4800000, guid: 2c58aea58acd0400c8a2fd1393cf8763, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

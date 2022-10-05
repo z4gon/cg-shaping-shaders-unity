@@ -1,4 +1,4 @@
-Shader "Unlit/16c_DrawSinusoidal_Shader_Unlit"
+Shader "Unlit/17_DrawSinusoidal_Shader_Unlit"
 {
     Properties
     {
