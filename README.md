@@ -1,6 +1,6 @@
-# Cg Shaders for drawing Shapes in Unity
+# Cg Shaping Shaders in Unity
 
-A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
+A collection of Shaping Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
 ### Course
 
