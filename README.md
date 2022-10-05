@@ -472,3 +472,42 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Tiling](./docs/14.gif)
+
+### Soften Circle
+
+- Use a `[Toggle]` property in `ShaderLab` to enable or disable the softness in the circle.
+- Add a `smoothstep()` to the `checkInCircle()`
+
+```c
+float checkInCircle(float2 position, float2 center, float radius, bool soften = false)
+{
+    // returns 1 if the point is inside the circle defined by center and radius
+
+    fixed r = length(position - center);
+
+    float softenThreshold = soften ? radius * 0.2 : 0.0;
+
+    fixed outCircle = smoothstep(radius - softenThreshold, radius + softenThreshold, r);
+    fixed inCircle = 1 - outCircle;
+
+    return inCircle;
+}
+```
+
+```c
+Properties
+{
+    // ...
+    [Toggle] _Soften("Soften", Float) = 0
+}
+```
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _Soften);
+    return fixed4(1,1,1,1) * inCircle;
+}
+```
+
+![Tiling](./docs/14b.gif)
