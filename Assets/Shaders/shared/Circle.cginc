@@ -11,3 +11,14 @@ float checkInCircle(float2 position, float2 center, float radius, bool soften = 
 
     return inCircle;
 }
+
+float checkInCircle(float2 position, float2 center, float radius, float lineWidth)
+{
+    // returns 1 if the point is inside the circle line width
+
+    fixed r = length(position - center);
+
+    fixed inCircle = step(radius - lineWidth, r) - step(radius + lineWidth, r);
+
+    return inCircle;
+}

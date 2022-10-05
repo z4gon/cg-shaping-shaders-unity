@@ -471,9 +471,9 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Tiling](./docs/14.gif)
+![Moved Circle](./docs/14.gif)
 
-### Soften Circle
+### Soft Circle
 
 - Use a `[Toggle]` property in `ShaderLab` to enable or disable the softness in the circle.
 - Add a `smoothstep()` to the `checkInCircle()`
@@ -510,4 +510,31 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Tiling](./docs/14b.gif)
+![Soft Circle](./docs/14b.gif)
+
+### Outlined Circle
+
+- Use `step()` to check if the pixel is inside the circle outline.
+
+```c
+float checkInCircle(float2 position, float2 center, float radius, float lineWidth)
+{
+    // returns 1 if the point is inside the circle line width
+
+    fixed r = length(position - center);
+
+    fixed inCircle = step(radius - lineWidth, r) - step(radius + lineWidth, r);
+
+    return inCircle;
+}
+```
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
+    return fixed4(1,1,1,1) * inCircle;
+}
+```
+
+![Outlined Circle](./docs/14c.gif)

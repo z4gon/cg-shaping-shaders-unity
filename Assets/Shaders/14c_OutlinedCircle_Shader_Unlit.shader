@@ -1,10 +1,10 @@
-Shader "Unlit/14b_SoftCircle_Shader_Unlit"
+Shader "Unlit/14c_OutlinedCircle_Shader_Unlit"
 {
     Properties
     {
         _CircleRadius("Circle Radius", Range(0.0, 1.0)) = 0.3
         _CirclePosition("Circle Position", Vector) = (0,0,0,0)
-        [Toggle] _Soften("Soften", Float) = 0
+        _LineWidth("Line Width", Float) = 0.2
     }
     SubShader
     {
@@ -23,11 +23,11 @@ Shader "Unlit/14b_SoftCircle_Shader_Unlit"
 
             float _CircleRadius;
             float2 _CirclePosition;
-            float _Soften;
+            float _LineWidth;
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _Soften == 1);
+                fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
                 return fixed4(1,1,1,1) * inCircle;
             }
             ENDCG
