@@ -30,7 +30,7 @@ Shader "Unlit/8b_Rect_Shader_Unlit"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 position = i.position.xy;
-                fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), float2(_Width, _Height));
+                fixed inRect = rect(position, float2(_CenterX, _CenterY), float2(_Width, _Height));
 
                 return fixed4(1,1,1,1) * inRect;
             }

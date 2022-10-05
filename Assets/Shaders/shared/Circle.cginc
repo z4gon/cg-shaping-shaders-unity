@@ -1,4 +1,4 @@
-float checkInCircle(float2 position, float2 center, float radius, bool soften = false)
+float circle(float2 position, float2 center, float radius, bool soften = false)
 {
     // returns 1 if the point is inside the circle defined by center and radius
 
@@ -12,7 +12,7 @@ float checkInCircle(float2 position, float2 center, float radius, bool soften = 
     return inCircle;
 }
 
-float checkInCircle(float2 position, float2 center, float radius, float lineWidth)
+float circle(float2 position, float2 center, float radius, float lineWidth)
 {
     // returns 1 if the point is inside the circle line width
 

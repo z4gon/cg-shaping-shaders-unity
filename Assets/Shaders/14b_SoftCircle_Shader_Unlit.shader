@@ -27,7 +27,7 @@ Shader "Unlit/14b_SoftCircle_Shader_Unlit"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _Soften == 1);
+                fixed inCircle = circle(i.position.xy, _CirclePosition, _CircleRadius, _Soften == 1);
                 return fixed4(1,1,1,1) * inCircle;
             }
             ENDCG

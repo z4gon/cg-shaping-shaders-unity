@@ -41,7 +41,7 @@ Shader "Unlit/13_Tiling_Shader_Unlit"
                 // reposition the pixel at the center, rotate around zero, then put back in place
                 float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
 
-                fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
+                fixed inRect = rect(rotatedPos, _SquarePosition, size, _SquareAnchor);
 
                 return fixed4(1,1,0,1) * inRect;
             }

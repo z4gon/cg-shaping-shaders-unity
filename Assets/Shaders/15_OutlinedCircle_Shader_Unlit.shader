@@ -27,7 +27,7 @@ Shader "Unlit/15_OutlinedCircle_Shader_Unlit"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
+                fixed inCircle = circle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
                 return fixed4(1,1,1,1) * inCircle;
             }
             ENDCG

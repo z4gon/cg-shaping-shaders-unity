@@ -23,7 +23,7 @@ Shader "Unlit/7_Circle_Shader_Unlit"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed inCircle = checkInCircle(i.position.xy, float2(0,0), _Radius);
+                fixed inCircle = circle(i.position.xy, float2(0,0), _Radius);
                 return fixed4(1,1,1,1) * inCircle;
             }
             ENDCG

@@ -242,10 +242,10 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Square
 
-- Use `checkInRect()` to return 1 only if the pixel is inside the square.
+- Use `rect()` to return 1 only if the pixel is inside the square.
 
 ```c
-float checkInRect(float2 position, float2 center, float2 size)
+float rect(float2 position, float2 center, float2 size)
 {
     // returns 1 when the position is inside the rect defined by center and size
     float2 p = position - center;
@@ -261,7 +261,7 @@ float checkInRect(float2 position, float2 center, float2 size)
 fixed4 frag (v2f i) : SV_Target
 {
     float2 position = i.position.xy;
-    fixed inRect = checkInRect(position, float2(_CenterX, _CenterY), float2(_Width, _Height));
+    fixed inRect = rect(position, float2(_CenterX, _CenterY), float2(_Width, _Height));
 
     return fixed4(1,1,1,1) * inRect;
 }
@@ -279,8 +279,8 @@ fixed4 frag (v2f i) : SV_Target
 fixed4 frag (v2f i) : SV_Target
 {
     float2 position = i.position.xy;
-    fixed inRect1 = checkInRect(position, _Rect1.xy, _Rect1.zw);
-    fixed inRect2 = checkInRect(position, _Rect2.xy, _Rect2.zw);
+    fixed inRect1 = rect(position, _Rect1.xy, _Rect1.zw);
+    fixed inRect2 = rect(position, _Rect2.xy, _Rect2.zw);
 
     return _Color1 * inRect1 + _Color2 * inRect2;
 }
@@ -290,7 +290,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Follow Mouse
 
-- Use `checkInRect()` but with a square based on the mouse position as center.
+- Use `rect()` but with a square based on the mouse position as center.
 - Use a **C#** script to **RayCast** on top of the **Quad**, then **pass** the Mouse Position to the **Material**.
 
 ```cs
@@ -313,7 +313,7 @@ void Update()
 fixed4 frag (v2f i) : SV_Target
 {
     float2 position = i.uv;
-    fixed inRect = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
+    fixed inRect = rect(position, _MousePosition.xy, float2(0.1, 0.1));
 
     return fixed4(1,1,0,1) * inRect;
 }
@@ -323,7 +323,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Moving Square
 
-- Use `checkInRect()` but using `sin` and `cos` to position the rectangle.
+- Use `rect()` but using `sin` and `cos` to position the rectangle.
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -336,7 +336,7 @@ fixed4 frag (v2f i) : SV_Target
 
     float2 position = i.position.xy * 2.0;
 
-    fixed inRect = checkInRect(position, center, size);
+    fixed inRect = rect(position, center, size);
 
     return fixed4(1,1,0,1) * inRect;
 }
@@ -370,7 +370,7 @@ fixed4 frag (v2f i) : SV_Target
     // reposition the pixel at the center, rotate around zero, then put back in place
     float2 rotatedPos = mul(rotation, position - _SquarePosition) + _SquarePosition;
 
-    fixed inRect = checkInRect(rotatedPos, _SquarePosition, size);
+    fixed inRect = rect(rotatedPos, _SquarePosition, size);
 
     return fixed4(1,1,0,1) * inRect;
 }
@@ -381,7 +381,7 @@ fixed4 frag (v2f i) : SV_Target
 ### Square Change Anchor
 
 ```c
-float checkInRect(float2 position, float2 center, float2 size, float2 anchor = 0)
+float rect(float2 position, float2 center, float2 size, float2 anchor = 0)
 {
     // returns 1 when the position is inside the rect defined by center and size
     float2 p = position - center;
@@ -424,7 +424,7 @@ fixed4 frag (v2f i) : SV_Target
     // reposition the pixel at the center, rotate around zero, then put back in place
     float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
 
-    fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
+    fixed inRect = rect(rotatedPos, _SquarePosition, size, _SquareAnchor);
 
     return fixed4(1,1,0,1) * inRect;
 }
@@ -456,7 +456,7 @@ fixed4 frag (v2f i) : SV_Target
     // reposition the pixel at the center, rotate around zero, then put back in place
     float2 rotatedPos = mul(transform, position - _SquarePosition) + _SquarePosition;
 
-    fixed inRect = checkInRect(rotatedPos, _SquarePosition, size, _SquareAnchor);
+    fixed inRect = rect(rotatedPos, _SquarePosition, size, _SquareAnchor);
 
     return fixed4(1,1,0,1) * inRect;
 }
@@ -469,7 +469,7 @@ fixed4 frag (v2f i) : SV_Target
 - Use a vector to set a position for the center of the circle, and calculate around it.
 
 ```c
-float checkInCircle(float2 position, float2 center, float radius)
+float circle(float2 position, float2 center, float radius)
 {
     // returns 1 if the point is inside the circle defined by center and radius
 
@@ -482,7 +482,7 @@ float checkInCircle(float2 position, float2 center, float radius)
 
 fixed4 frag (v2f i) : SV_Target
 {
-    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius);
+    fixed inCircle = circle(i.position.xy, _CirclePosition, _CircleRadius);
     return fixed4(1,1,1,1) * inCircle;
 }
 ```
@@ -492,10 +492,10 @@ fixed4 frag (v2f i) : SV_Target
 ### Soft Circle
 
 - Use a `[Toggle]` property in `ShaderLab` to enable or disable the softness in the circle.
-- Add a `smoothstep()` to the `checkInCircle()`
+- Add a `smoothstep()` to the `circle()`
 
 ```c
-float checkInCircle(float2 position, float2 center, float radius, bool soften = false)
+float circle(float2 position, float2 center, float radius, bool soften = false)
 {
     // returns 1 if the point is inside the circle defined by center and radius
 
@@ -521,7 +521,7 @@ Properties
 ```c
 fixed4 frag (v2f i) : SV_Target
 {
-    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _Soften);
+    fixed inCircle = circle(i.position.xy, _CirclePosition, _CircleRadius, _Soften);
     return fixed4(1,1,1,1) * inCircle;
 }
 ```
@@ -533,7 +533,7 @@ fixed4 frag (v2f i) : SV_Target
 - Use `step()` to check if the pixel is inside the circle outline.
 
 ```c
-float checkInCircle(float2 position, float2 center, float radius, float lineWidth)
+float circle(float2 position, float2 center, float radius, float lineWidth)
 {
     // returns 1 if the point is inside the circle line width
 
@@ -548,7 +548,7 @@ float checkInCircle(float2 position, float2 center, float radius, float lineWidt
 ```c
 fixed4 frag (v2f i) : SV_Target
 {
-    fixed inCircle = checkInCircle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
+    fixed inCircle = circle(i.position.xy, _CirclePosition, _CircleRadius, _LineWidth);
     return fixed4(1,1,1,1) * inCircle;
 }
 ```

@@ -24,7 +24,7 @@ Shader "Unlit/9_SquareFollowMouse_Shader_Unlit"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 position = i.uv;
-                fixed inRect = checkInRect(position, _MousePosition.xy, float2(0.1, 0.1));
+                fixed inRect = rect(position, _MousePosition.xy, float2(0.1, 0.1));
 
                 return fixed4(1,1,0,1) * inRect;
             }

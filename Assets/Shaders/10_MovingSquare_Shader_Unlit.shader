@@ -28,7 +28,7 @@ Shader "Unlit/10_MovingSquare_Shader_Unlit"
 
                 float2 position = i.position.xy * 2.0;
 
-                fixed inRect = checkInRect(position, center, size);
+                fixed inRect = rect(position, center, size);
 
                 return fixed4(1,1,0,1) * inRect;
             }

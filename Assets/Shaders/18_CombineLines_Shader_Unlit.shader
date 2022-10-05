@@ -39,9 +39,9 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
                 color += lineColor * onLine(position.y, 0.5, _Width, 0);
 
                 float2 center = 0.5;
-                color += lineColor * checkInCircle(position, center, 0.3, _Width);
-                color += lineColor * checkInCircle(position, center, 0.2, _Width);
-                color += lineColor * checkInCircle(position, center, 0.1, _Width);
+                color += lineColor * circle(position, center, 0.3, _Width);
+                color += lineColor * circle(position, center, 0.2, _Width);
+                color += lineColor * circle(position, center, 0.1, _Width);
 
                 return color;
             }
