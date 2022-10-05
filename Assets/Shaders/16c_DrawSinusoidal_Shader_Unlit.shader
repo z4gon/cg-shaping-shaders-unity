@@ -30,6 +30,8 @@ Shader "Unlit/16c_DrawSinusoidal_Shader_Unlit"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 position = i.position.xy * 2;
+                // for UVs:
+                // float2 position = (i.uv - 0.5) * 2;
 
                 // onLine checks that x = y, so, this will check that the sin() function is rendered
                 float sinValue = getTransformedSin(position.x * UNITY_PI);
