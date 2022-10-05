@@ -1,4 +1,4 @@
-# Cg Shapes Shaders for Unity
+# Cg Shaders for drawing Shapes in Unity
 
 A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
