@@ -81,7 +81,7 @@ Material:
     - _SrcBlend: 1
     - _StepEdge: 0.04
     - _UVSec: 0
-    - _Width: 0.005
+    - _Width: 0.003
     - _ZWrite: 1
     m_Colors:
     - _CirclePosition: {r: 0, g: 0, b: 0, a: 0}

@@ -3,7 +3,6 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
     Properties
     {
         _Width("Line Width", Float) = 0.05
-        _Smoothness("Smoothness", Float) = 0.02
     }
     SubShader
     {
@@ -22,10 +21,30 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
             #include "./shared/Circle.cginc"
 
             float _Width;
-            float _Smoothness;
 
-            float getTransformedSin(float x){
-                return ((sin(x) + 1.0) / 2.0) - 0.5;
+            float sweep(float2 position, float2 center, float radius, float lineWidth, float edgeThickness)
+            {
+                // translate position to the coordinates system on the center
+                float2 testPoint = position - center;
+
+                // create an angle in radians from the time
+                float theta = _Time.w;
+
+                // point that defines the line of the sweep, from the center
+                float2 guidePoint = float2(cos(theta), -sin(theta)) * radius;
+
+                // length of the line when projecting the test point onto the guide point's line
+                float projectedMagnitude = dot(testPoint, guidePoint) / dot(guidePoint, guidePoint);
+
+                // clamp to maximum 1
+                projectedMagnitude = clamp(projectedMagnitude, 0.0, 1.0);
+
+                // get the projected point in the guide point's line
+                float2 projectedPoint = guidePoint * projectedMagnitude;
+
+                float distanceToSweepLine = length(testPoint - projectedPoint);
+
+                return 1.0 - smoothstep(lineWidth, lineWidth - edgeThickness, distanceToSweepLine);
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -42,6 +61,7 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
                 color += lineColor * circle(position, center, 0.3, _Width);
                 color += lineColor * circle(position, center, 0.2, _Width);
                 color += lineColor * circle(position, center, 0.1, _Width);
+                color += fixed4(0,0,1,1) * sweep(position, center, 0.3, _Width, 0);
 
                 return color;
             }
