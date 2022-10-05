@@ -13,17 +13,23 @@ A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unit
 1. [With Exposed Properties in ShaderLab](#with-exposed-properties-in-shader-lab)
 1. [Interpolated UVs](#interpolated-uvs)
 1. [Custom Data from Vertex Shader](#custom-data-from-vertex-shader)
-1. [Step and Smoothstep](#step-and-smoothstep)
+1. [Step](#step)
+   1. [Smoothstep](#smoothstep)
 1. [Circle](#circle)
-1. [Square and Rectangle](#square-and-rectangle)
+1. [Square](#square)
+   1. [Rectangle](#rectangle)
+   1. [Rectangles](#rectangles)
 1. [Follow Mouse](#follow-mouse)
 1. [Moving Square](#moving-square)
 1. [Rotating Square](#rotating-square)
+   1. [Square Change Anchor](#square-change-anchor)
 1. [Scaling Square](#scaling-square)
 1. [Tiling](#tiling)
 1. [Moved Circle](#moved-circle)
+   1. [Soft Circle](#soft-circle)
 1. [Outlined Circle](#outlined-circle)
 1. [Draw Line](#draw-line)
+   1. [Draw Line with UVs](#draw-line-with-uvs)
 
 ## Simple Red Unlit Shader
 
@@ -176,7 +182,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Custom Data from Vertex Shader](./docs/5.gif)
 
-## Step and Smoothstep
+## Step
 
 - Same structure as previous shader.
 - Uses `step()` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
@@ -196,6 +202,8 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Step](./docs/6.gif)
+
+### Smoothstep
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -231,7 +239,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Circle](./docs/7.gif)
 
-## Square and Rectangle
+## Square
 
 - Use `checkInRect()` to return 1 only if the pixel is inside the square.
 
@@ -259,7 +267,12 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Square](./docs/8.gif)
+
+### Rectangle
+
 ![Rect](./docs/8b.gif)
+
+### Rectangles
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -364,7 +377,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ![Rotating Square](./docs/11.gif)
 
-### Change Anchor
+### Square Change Anchor
 
 ```c
 float checkInRect(float2 position, float2 center, float2 size, float2 anchor = 0)
@@ -382,7 +395,7 @@ float checkInRect(float2 position, float2 center, float2 size, float2 anchor = 0
 
 ```
 
-![Anchor for Square](./docs/11b.gif)
+![Square Change Anchor](./docs/11b.gif)
 
 ## Scaling Square
 
@@ -591,4 +604,4 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Draw Line](./docs/16b.gif)
+![Draw Line with UVs](./docs/16b.gif)
