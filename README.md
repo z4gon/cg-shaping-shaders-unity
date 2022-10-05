@@ -30,6 +30,7 @@ A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unit
 1. [Outlined Circle](#outlined-circle)
 1. [Draw Line](#draw-line)
    1. [Draw Line with UVs](#draw-line-with-uvs)
+   1. [Draw Sinusoidal](#draw-sinusoidal)
 
 ## Simple Red Unlit Shader
 
@@ -605,3 +606,27 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Draw Line with UVs](./docs/16b.gif)
+
+### Draw Sinusoidal
+
+- Translate and scale the `sin()` function to make it be between (0, 0.5).
+- Test each pixel to see if they match the `sin()` function, and turn them white.
+
+```c
+float getTransformedSin(float x){
+    return ((sin(x) + 1.0) / 2.0) - 0.5;
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 position = i.position.xy * 2;
+
+    // onLine checks that x = y, so, this will check that the sin() function is rendered
+    float sinValue = getTransformedSin(position.x * UNITY_PI);
+    float isOnLine = onLine(position.y, sinValue, _Width, _Smoothness);
+
+    return fixed4(1,1,1,1) * isOnLine;
+}
+```
+
+![Draw Sinusoidal](./docs/16c.gif)

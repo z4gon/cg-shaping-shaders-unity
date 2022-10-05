@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 16b_DrawLineUVs
-  m_Shader: {fileID: 4800000, guid: ce61be21309d44788b01d7c692ddfd54, type: 3}
+  m_Name: 16c_DrawSinusoidal
+  m_Shader: {fileID: 4800000, guid: 2c58aea58acd0400c8a2fd1393cf8763, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -74,14 +74,14 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Radius: 0.352
-    - _Smoothness: 0.01
+    - _Smoothness: 0.03
     - _SmoothnessTextureChannel: 0
     - _Soften: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StepEdge: 0.04
     - _UVSec: 0
-    - _Width: 0.09
+    - _Width: 0.04
     - _ZWrite: 1
     m_Colors:
     - _CirclePosition: {r: 0, g: 0, b: 0, a: 0}
