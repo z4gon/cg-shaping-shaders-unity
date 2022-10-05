@@ -349,7 +349,7 @@ fixed4 frag (v2f i) : SV_Target
 ## Rotating Square
 
 - Use a 2D `rotation matrix` to rotate the pixel position.
-- Multiply using [mul](https://developer.download.nvidia.com/cg/mul.html).
+- [Multiply the matrices and vectors](https://mathinsight.org/matrix_vector_multiplication) using [mul](https://developer.download.nvidia.com/cg/mul.html).
 
 ```c
 float2x2 getRotationMatrix2D(float theta)
@@ -639,7 +639,7 @@ fixed4 frag (v2f i) : SV_Target
 - Draw the HUD of the Sonar using `onLine()` and `circle()`.
 - **Sweep Line**
   - With `_Time`, `sin()` and `cos()`, draw an oscillating point that will set the direction of the radar sweeping line.
-  - Use the [dot](https://developer.download.nvidia.com/cg/dot.html) function to project each pixel over the line of the sweeping radar, and get the scalar magnitude of the projection.
+  - Use the [dot](https://developer.download.nvidia.com/cg/dot.html) function to [project each pixel over the line of the sweeping radar](https://mathinsight.org/dot_product), and get the scalar magnitude of the projection.
   - Get the actual closest point by using this scalar value and the guide point.
   - If the test pixel is close enough to the sweeping line, then draw it.
   - Clamp the sweeping line to be (0, radius).
