@@ -8,6 +8,7 @@ struct v2f
     float4 vertex: SV_POSITION; // From Object-Space to Clip-Space
     float4 position: TEXCOORD1;
     float4 uv: TEXCOORD0;
+    float4 screenPos: TEXCOORD2;
 };
 
 v2f vert (appdata_base v)
@@ -17,6 +18,7 @@ v2f vert (appdata_base v)
     output.vertex = UnityObjectToClipPos(v.vertex);
     output.position = v.vertex;
     output.uv = v.texcoord;
+    output.screenPos = ComputeScreenPos(output.vertex);
 
     return output;
 }
