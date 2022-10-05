@@ -575,3 +575,20 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Draw Line](./docs/16.gif)
+
+### Draw Line with UVs
+
+- Define a function to check if the uv coordinate is along the `x = y` line in the UVs coordinates in the texture.
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 uv = i.uv;
+
+    float isOnLine = onLine(uv.x, uv.y, _Width, _Smoothness);
+
+    return fixed4(1,1,1,1) * isOnLine;
+}
+```
+
+![Draw Line](./docs/16b.gif)

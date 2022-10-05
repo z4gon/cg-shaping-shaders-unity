@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 16_DrawLine
+  m_Name: 16_DrawLineScreen
   m_Shader: {fileID: 4800000, guid: 8ad17924692714976a090b9756f45bf4, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -74,14 +74,14 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Radius: 0.352
-    - _Smoothness: 0.02
+    - _Smoothness: 0.3
     - _SmoothnessTextureChannel: 0
     - _Soften: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StepEdge: 0.04
     - _UVSec: 0
-    - _Width: 0.05
+    - _Width: 0.06
     - _ZWrite: 1
     m_Colors:
     - _CirclePosition: {r: 0, g: 0, b: 0, a: 0}

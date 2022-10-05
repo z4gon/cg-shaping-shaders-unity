@@ -1,4 +1,4 @@
-Shader "Unlit/16_DrawLine"
+Shader "Unlit/16b_DrawLineUVs_Shader_Unlit"
 {
     Properties
     {
@@ -25,7 +25,7 @@ Shader "Unlit/16_DrawLine"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 uv = i.screenPos.xy / i.screenPos.w;
+                float2 uv = i.uv;
 
                 float isOnLine = onLine(uv.x, uv.y, _Width, _Smoothness);
 

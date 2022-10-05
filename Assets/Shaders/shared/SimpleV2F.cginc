@@ -18,6 +18,8 @@ v2f vert (appdata_base v)
     output.vertex = UnityObjectToClipPos(v.vertex);
     output.position = v.vertex;
     output.uv = v.texcoord;
+
+    // object space to screen space
     output.screenPos = ComputeScreenPos(output.vertex);
 
     return output;
