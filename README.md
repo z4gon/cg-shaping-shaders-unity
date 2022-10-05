@@ -31,6 +31,7 @@ A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unit
 1. [Draw Line](#draw-line)
    1. [Draw Line with UVs](#draw-line-with-uvs)
 1. [Draw Sinusoidal](#draw-sinusoidal)
+1. [Sonar Radar](#sonar-radar)
 
 ## Simple Red Unlit Shader
 
@@ -632,3 +633,91 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Draw Sinusoidal](./docs/17.gif)
+
+## Sonar Radar
+
+- Draw the HUD of the Sonar using `onLine()` and `circle()`.
+- **Sweep Line**
+  - With `_Time`, `sin()` and `cos()`, draw an oscillating point that will set the direction of the radar sweeping line.
+  - Use the [dot](https://developer.download.nvidia.com/cg/dot.html) function to project each pixel over the line of the sweeping radar, and get the scalar magnitude of the projection.
+  - Get the actual closest point by using this scalar value and the guide point.
+  - If the test pixel is close enough to the sweeping line, then draw it.
+  - Clamp the sweeping line to be (0, radius).
+- **Sweep Gradient**
+  - Calculate the angle of the test pixel by using the [atan2](https://developer.download.nvidia.com/cg/atan2.html).
+  - Calculate the angle from the test pixel to the sweep line.
+  - Use [fmod](https://developer.download.nvidia.com/cg/fmod.html) to keep it between 0 and 2pi.
+  - Calculate how much of the maximum gradient angle is used, then return this clamped value in (0,1).
+
+```c
+float sweepGradientTrail(float2 testPoint, float theta, float radius)
+{
+    if(length(testPoint) > radius){
+        return 0;
+    }
+
+    const float sweepGradientTrailAngle = UNITY_PI * 0.5;
+
+    float angleOfTestPoint = atan2(testPoint.y, testPoint.x);
+    float angleToSweepLine = angleOfTestPoint + theta; // angles are counter clock-wise
+    angleToSweepLine = fmod(angleToSweepLine + UNITY_TWO_PI , UNITY_TWO_PI); // modulo to 2pi
+
+    // clamp angle so that it is not bigger than the gradientAngle
+    float gradientAngleUsed = clamp(
+        sweepGradientTrailAngle - angleToSweepLine,
+        0.0,
+        sweepGradientTrailAngle
+    );
+
+    return (gradientAngleUsed / sweepGradientTrailAngle) * 0.5;
+}
+
+float sweep(float2 position, float2 center, float radius, float lineWidth, float edgeThickness)
+{
+    // translate position to the coordinates system on the center
+    float2 testPoint = position - center;
+
+    // create an angle in radians from the time
+    float theta = _Time.w;
+
+    // point that defines the line of the sweep, from the center
+    float2 guidePoint = float2(cos(theta), -sin(theta)) * radius;
+
+    // length of the line when projecting the test point onto the guide point's line
+    float projectedMagnitude = dot(testPoint, guidePoint) / dot(guidePoint, guidePoint);
+
+    // clamp to maximum 1
+    projectedMagnitude = clamp(projectedMagnitude, 0.0, 1.0);
+
+    // get the projected point in the guide point's line
+    float2 projectedPoint = guidePoint * projectedMagnitude;
+
+    float distanceToSweepLine = length(testPoint - projectedPoint);
+
+    // calculate gradient trail
+    float gradientTrail = sweepGradientTrail(testPoint, theta, radius);
+
+    return gradientTrail + 1.0 - smoothstep(lineWidth, lineWidth - edgeThickness, distanceToSweepLine);
+}
+
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 position = i.uv;
+
+    fixed4 lineColor = fixed4(1,1,1,1);
+
+    // draw a crosshair
+    float4 color = lineColor * onLine(position.x, 0.5, _Width, 0);
+    color += lineColor * onLine(position.y, 0.5, _Width, 0);
+
+    float2 center = 0.5;
+    color += lineColor * circle(position, center, 0.3, _Width);
+    color += lineColor * circle(position, center, 0.2, _Width);
+    color += lineColor * circle(position, center, 0.1, _Width);
+    color += fixed4(0,1,0,1) * sweep(position, center, 0.3, _Width, 0);
+
+    return color;
+}
+```
+
+![Sonar Radar](./docs/18.gif)

@@ -22,6 +22,29 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
 
             float _Width;
 
+
+            float sweepGradientTrail(float2 testPoint, float theta, float radius)
+            {
+                if(length(testPoint) > radius){
+                    return 0;
+                }
+
+                const float sweepGradientTrailAngle = UNITY_PI * 0.5;
+
+                float angleOfTestPoint = atan2(testPoint.y, testPoint.x);
+                float angleToSweepLine = angleOfTestPoint + theta; // angles are counter clock-wise
+                angleToSweepLine = fmod(angleToSweepLine + UNITY_TWO_PI , UNITY_TWO_PI); // modulo to 2pi
+
+                // clamp angle so that it is not bigger than the gradientAngle
+                float gradientAngleUsed = clamp(
+                    sweepGradientTrailAngle - angleToSweepLine,
+                    0.0,
+                    sweepGradientTrailAngle
+                );
+
+                return (gradientAngleUsed / sweepGradientTrailAngle) * 0.5;
+            }
+
             float sweep(float2 position, float2 center, float radius, float lineWidth, float edgeThickness)
             {
                 // translate position to the coordinates system on the center
@@ -44,7 +67,10 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
 
                 float distanceToSweepLine = length(testPoint - projectedPoint);
 
-                return 1.0 - smoothstep(lineWidth, lineWidth - edgeThickness, distanceToSweepLine);
+                // calculate gradient trail
+                float gradientTrail = sweepGradientTrail(testPoint, theta, radius);
+
+                return gradientTrail + 1.0 - smoothstep(lineWidth, lineWidth - edgeThickness, distanceToSweepLine);
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -61,7 +87,7 @@ Shader "Unlit/18_CombineLines_Shader_Unlit"
                 color += lineColor * circle(position, center, 0.3, _Width);
                 color += lineColor * circle(position, center, 0.2, _Width);
                 color += lineColor * circle(position, center, 0.1, _Width);
-                color += fixed4(0,0,1,1) * sweep(position, center, 0.3, _Width, 0);
+                color += fixed4(0,1,0,1) * sweep(position, center, 0.3, _Width, 0);
 
                 return color;
             }
