@@ -32,6 +32,7 @@ A collection of Shapes Shaders written in **Cg** for the **Built-in RP** in Unit
    1. [Draw Line with UVs](#draw-line-with-uvs)
 1. [Draw Sinusoidal](#draw-sinusoidal)
 1. [Sonar Radar](#sonar-radar)
+1. [Polygons](#polygons)
 
 ## Simple Red Unlit Shader
 
@@ -721,3 +722,7 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Sonar Radar](./docs/18.gif)
+
+## Polygons
+
+![Polygons](./docs/19.gif)
