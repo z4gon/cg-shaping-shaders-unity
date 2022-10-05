@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 14c_OutlinedCircle
+  m_Name: 15_OutlinedCircle
   m_Shader: {fileID: 4800000, guid: 5b1e443dd29844988aab4a4eb747a54c, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -59,7 +59,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _CircleRadius: 0.2
+    - _CircleRadius: 0.15
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -68,7 +68,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LineWidth: 0.03
+    - _LineWidth: 0.01
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
