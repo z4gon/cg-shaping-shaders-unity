@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 18_CombineLines
+  m_Name: 18_SonarRadar
   m_Shader: {fileID: 4800000, guid: b874562b8828343bb88138e29d6179cf, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -74,7 +74,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Radius: 0.352
-    - _Smoothness: 0
+    - _Smoothness: 0.1
     - _SmoothnessTextureChannel: 0
     - _Soften: 0
     - _SpecularHighlights: 1

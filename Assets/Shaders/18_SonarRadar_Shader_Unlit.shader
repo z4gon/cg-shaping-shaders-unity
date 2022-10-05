@@ -1,4 +1,4 @@
-Shader "Unlit/18_CombineLines_Shader_Unlit"
+Shader "Unlit/18_SonarRadar_Shader_Unlit"
 {
     Properties
     {
