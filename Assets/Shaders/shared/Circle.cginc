@@ -18,7 +18,7 @@ float checkInCircle(float2 position, float2 center, float radius, float lineWidt
 
     fixed r = length(position - center);
 
-    fixed inCircle = step(radius - lineWidth, r) - step(radius + lineWidth, r);
+    fixed inCircle = step(radius - lineWidth / 2, r) - step(radius + lineWidth / 2, r);
 
     return inCircle;
 }
