@@ -208,7 +208,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![Parametrized Smoothstep](./docs/61.gif)
+![Parametrized Smoothstep](./docs/6b.gif)
 
 ## Circle
 
@@ -257,7 +257,7 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Square](./docs/8.gif)
-![Rect](./docs/81.gif)
+![Rect](./docs/8b.gif)
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -270,7 +270,7 @@ fixed4 frag (v2f i) : SV_Target
 }
 ```
 
-![2 Rects](./docs/82.gif)
+![2 Rects](./docs/8c.gif)
 
 ## Follow Mouse
 
@@ -538,3 +538,38 @@ fixed4 frag (v2f i) : SV_Target
 ```
 
 ![Outlined Circle](./docs/15.gif)
+
+### Draw Line
+
+- Define a function to check if the uv coordinate is along the `x = y` line in the screen position.
+
+```c
+float onLine(float x, float y, float lineWidth, float edgeThickness)
+{
+    float halfLineWidth = lineWidth * 0.5;
+
+    // returns 1 when (x,y) is in the line: x = y
+    return smoothstep(
+        x - halfLineWidth - edgeThickness,
+        x - halfLineWidth,
+        y
+    ) - smoothstep(
+        x + halfLineWidth,
+        x + halfLineWidth + edgeThickness,
+        y
+    );
+}
+```
+
+```c
+fixed4 frag (v2f i) : SV_Target
+{
+    float2 uv = i.screenPos.xy / i.screenPos.w;
+
+    float isOnLine = onLine(uv.x, uv.y, _Width, _Smoothness);
+
+    return fixed4(1,1,1,1) * isOnLine;
+}
+```
+
+![Outlined Circle](./docs/16.gif)
