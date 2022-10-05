@@ -53,8 +53,8 @@ fixed4 frag (v2f_img i) : SV_Target
 ## Color Over Time
 
 - Same structure as the simple red unlit shader.
-- Uses the `sin()` and `cos()` functions to oscillate the colors.
-- Uses the `Unity` `uniform` variable `_Time`, to change the color over time.
+- Uses the [sin()](https://developer.download.nvidia.com/cg/sin.html) and [cos()](https://developer.download.nvidia.com/cg/cos.html) functions to oscillate the colors.
+- Uses the `Unity` `uniform` variable [\_Time](https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html), to change the color over time.
 
 ```c
 fixed4 frag (v2f_img i) : SV_Target
@@ -80,7 +80,7 @@ fixed4 frag (v2f_img i) : SV_Target
 
 - Same structure as previous shaders.
 - Exposes `_ColorA` and `_ColorB` to the Unity Editor, using `ShaderLab`.
-- Uses the `lerp` function to blend between the two colors.
+- Uses the [lerp](https://developer.download.nvidia.com/cg/lerp.html) function to blend between the two colors.
 
 ```c
 Properties
@@ -140,7 +140,7 @@ fixed4 frag (v2f_img i) : SV_Target
 - Defines a custom `struct` called `v2f` for "vertex to fragment".
 - Uses the `Cg` semantics accordingly.
 - Defines a function for the `Vertex Shader`.
-- **Paints the pixels** by `saturating` the value of the interpolated for the pixel, on `Object Space`.
+- **Paints the pixels** by [saturating](https://developer.download.nvidia.com/cg/saturate.html) the value of the interpolated for the pixel, on `Object Space`.
   - **Black** (0,0,0) in the left bottom, because object space coordinates there are (-0.5, -0.5) to (0,0), which after multiplying by 2 and then saturating, end up being (0,0,0)
   - **Green** (0,1,0) to **Yellow** (1,1,0) in the top, because object space coordinates there are (-0.5, 0.5) to (0.5, 0,5), which after multiplying by 2 and then saturating, end up being (0,1,0) to (1,1,0)
   - **Red** (1,0,0) to **Yellow** (1,1,0) in the right, because object space coordinates there are (0.5, -0.5) to (0.5, 0.5), which after multiplying by 2 and then saturating, end up being (1,0,0) to (1,1,0)
@@ -186,8 +186,7 @@ fixed4 frag (v2f i) : SV_Target
 ## Step
 
 - Same structure as previous shader.
-- Uses `step()` to make the values be either 0 or 1, after passing the threshold, which is set to 0.
-- Use `smoothstep()` to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
+- Uses [step](https://developer.download.nvidia.com/cg/step.html) to make the values be either 0 or 1, after passing the threshold, which is set to 0.
 
 ```c
 fixed4 frag (v2f i) : SV_Target
@@ -206,6 +205,8 @@ fixed4 frag (v2f i) : SV_Target
 
 ### Smoothstep
 
+- Use [smoothstep](https://developer.download.nvidia.com/cg/smoothstep.html) to make the values be either 0 before first edge, or 1 after last edge, and an interpolation between 0 and 1 between edges.
+
 ```c
 fixed4 frag (v2f i) : SV_Target
 {
@@ -223,8 +224,8 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Circle
 
-- Use `length()` to return a white pixel when the position of the pixel in object space is within the `_Radius`.
-- `step()` to have 1 when outside the circle.
+- Use [length](https://developer.download.nvidia.com/cg/length.html) to return a white pixel when the position of the pixel in object space is within the `_Radius`.
+- [step](https://developer.download.nvidia.com/cg/step.html) to have 1 when outside the circle.
 - Substract from 1 to invert the meaning, now 1 means inside the circle, multiply the final color by this.
 
 ```c
@@ -347,6 +348,7 @@ fixed4 frag (v2f i) : SV_Target
 ## Rotating Square
 
 - Use a 2D `rotation matrix` to rotate the pixel position.
+- Multiply using [mul](https://developer.download.nvidia.com/cg/mul.html).
 
 ```c
 float2x2 getRotationMatrix2D(float theta)
@@ -434,7 +436,7 @@ fixed4 frag (v2f i) : SV_Target
 
 ## Tiling
 
-- Use `frac()` from **Cg** to extract the fractional component of the decimal values for UVs.
+- Use [frac](https://developer.download.nvidia.com/cg/frac.html) from **Cg** to extract the fractional component of the decimal values for UVs.
 - This essentialy replicates many coordinate systems of `(0,0) to (1,1)` across the Quad.
 - The calculations for the rotating square are still done in a `(0,0) to (1,1)` coordinate system.
 - So, this basically clones the same thing we did before, but as many times as `Tile Count` states.
