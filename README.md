@@ -2,7 +2,7 @@
 
 A collection of Shaping Shaders written in **Cg** for the **Built-in RP** in Unity, from basic to advanced.
 
-### Course
+### References
 
 [Learn Unity Shaders from Scratch - Nik Lever](https://www.udemy.com/course/learn-unity-shaders-from-scratch)
 
